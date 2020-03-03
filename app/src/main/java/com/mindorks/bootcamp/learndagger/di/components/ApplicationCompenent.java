@@ -1,3 +1,4 @@
+/*
 package com.mindorks.bootcamp.learndagger.di.components;
 
 import com.mindorks.bootcamp.learndagger.MyApplication;
@@ -20,3 +21,4 @@ public interface ApplicationCompenent {
     DatabaseService getDatabaseService();
 
 }
+*/

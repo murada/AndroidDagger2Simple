@@ -1,3 +1,4 @@
+/*
 package com.mindorks.bootcamp.learndagger;
 
 import android.app.Application;
@@ -26,4 +27,4 @@ public class MyApplication extends Application {
                 .build();
         compenent.inject(this);
     }
-}
+}*/

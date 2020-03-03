@@ -1,3 +1,4 @@
+/*
 package com.mindorks.bootcamp.learndagger.ui;
 
 import com.mindorks.bootcamp.learndagger.data.local.DatabaseService;
@@ -20,3 +21,4 @@ public class MainViewModel {
         return databaseService.getDummyData() + " : " + networkService.getDummyData();
     }
 }
+*/
