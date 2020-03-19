@@ -1,3 +1,4 @@
+/*
 package com.mindorks.bootcamp.learndagger.di.modules;
 
 import android.app.Activity;
@@ -23,3 +24,4 @@ public class ActivityModule {
 
 
 }
+*/

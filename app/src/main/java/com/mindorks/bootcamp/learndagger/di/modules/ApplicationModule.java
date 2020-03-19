@@ -1,3 +1,4 @@
+/*
 package com.mindorks.bootcamp.learndagger.di.modules;
 
 import android.content.Context;
@@ -43,6 +44,7 @@ public class ApplicationModule {
         return "ssss";
     }
 
+*/
 /*    @Singleton
     @Provides
     public NetworkService provideNetworkService(){
@@ -54,7 +56,9 @@ public class ApplicationModule {
     @Provides
     public DatabaseService provideDatabaseService(){
         return new DatabaseService(myApplication , "zzz" , 1);
-    }*/
+    }*//*
+
 
 
 }
+*/

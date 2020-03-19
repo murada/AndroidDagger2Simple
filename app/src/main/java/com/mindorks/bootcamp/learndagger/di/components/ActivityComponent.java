@@ -1,3 +1,4 @@
+/*
 package com.mindorks.bootcamp.learndagger.di.components;
 
 import com.mindorks.bootcamp.learndagger.di.modules.ActivityModule;
@@ -13,3 +14,4 @@ public interface ActivityComponent {
     void inject(MainActivity mainActivity);
 
 }
+*/
