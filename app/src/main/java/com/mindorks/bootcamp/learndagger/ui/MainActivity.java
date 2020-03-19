@@ -7,6 +7,7 @@ import com.mindorks.bootcamp.learndagger.MyApplication;
 import com.mindorks.bootcamp.learndagger.R;
 import com.mindorks.bootcamp.learndagger.di.components.DaggerActivityComponent;
 import com.mindorks.bootcamp.learndagger.di.modules.ActivityModule;
+import com.mindorks.bootcamp.learndagger.ui.fragments.HomeFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,5 +29,16 @@ public class MainActivity extends AppCompatActivity {
 
         TextView tvData = findViewById(R.id.tvData);
         tvData.setText(viewModel.getSomeData());
+
+        addHomeFragment();
+    }
+
+    private void addHomeFragment() {
+        if(getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG) == null){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container_fragment, HomeFragment.newInstance(), HomeFragment.TAG)
+                    .commit();
+        }
     }
 }
