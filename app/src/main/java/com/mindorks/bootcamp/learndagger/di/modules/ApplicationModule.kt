@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.mindorks.bootcamp.learndagger.MyApplication
 import com.mindorks.bootcamp.learndagger.data.local.DatabaseService
+import com.mindorks.bootcamp.learndagger.data.local.MIGRATION_1_2
 import com.mindorks.bootcamp.learndagger.di.qualifier.ApiKey
 import com.mindorks.bootcamp.learndagger.di.qualifier.DatabaseName
 import dagger.Module
@@ -43,7 +44,8 @@ class ApplicationModule (var myApplication: MyApplication){
             myApplication,
             DatabaseService::class.java,
             "bootcamp=database-project-db"
-    ).build()
+    ).addMigrations(MIGRATION_1_2)
+            .build()
 
 
     @Provides

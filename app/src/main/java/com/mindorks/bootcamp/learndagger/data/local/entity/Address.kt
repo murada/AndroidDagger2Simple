@@ -13,8 +13,10 @@ data class Address(
         @ColumnInfo(name = "city")
         var city: String,
         @ColumnInfo(name = "country")
-        var country: String
+        var country: String,
+        @ColumnInfo(name = "code")
+        var code: Int
 
 ) {
-    constructor() : this(0, "", "")
+    constructor() : this(0, "", "" , 0)
 }

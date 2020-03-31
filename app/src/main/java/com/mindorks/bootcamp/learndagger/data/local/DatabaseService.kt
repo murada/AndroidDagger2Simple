@@ -17,7 +17,7 @@ import javax.inject.Singleton
         User::class,
         Address::class
         ],
-        version = 1,
+        version = 2,
         exportSchema = false
 )
 @TypeConverters(Converter::class)

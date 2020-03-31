@@ -46,12 +46,12 @@ class MainViewModel @Inject constructor(
                         .flatMap {
                             if (it == 0)
                                 databaseService.addressDao().insertMany(
-                                        Address(city = "amman", country = "jordan"),
-                                        Address(city = "irbid", country = "jordan"),
-                                        Address(city = "home", country = "jordan"),
-                                        Address(city = "here", country = "jordan"),
-                                        Address(city = "there", country = "jordan"),
-                                        Address(city = "mars", country = "jordan")
+                                        Address(city = "amman", code = 2,country = "jordan"),
+                                        Address(city = "irbid", code = 2,country = "jordan"),
+                                        Address(city = "home",  code = 2,country = "jordan"),
+                                        Address(city = "here",  code = 2,country = "jordan"),
+                                        Address(city = "there", code = 2,country = "jordan"),
+                                        Address(city = "mars",  code = 2,country = "jordan")
                                 ).flatMap { addressessIds ->
                                     databaseService.userDao().insertMany(
                                             User(name = "Murad", dateOfBirth = Date(9596845779),addressId = addressessIds[0]),
