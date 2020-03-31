@@ -1,13 +1,151 @@
 package com.mindorks.bootcamp.learndagger.ui
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.mindorks.bootcamp.learndagger.data.local.DatabaseService
+import com.mindorks.bootcamp.learndagger.data.local.entity.Address
+import com.mindorks.bootcamp.learndagger.data.local.entity.User
 import com.mindorks.bootcamp.learndagger.data.remote.NetworkService
+import io.reactivex.Scheduler
+import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.internal.disposables.ArrayCompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class MainViewModel @Inject constructor(var databaseService: DatabaseService , var networkService: NetworkService) {
+class MainViewModel @Inject constructor(
+        private val compositeDisposable: CompositeDisposable,
+        private val databaseService: DatabaseService,
+        private val networkService: NetworkService) {
 
-    fun getSomeData():String{
-        return databaseService.dummyData + " : " + networkService.dummyData
+
+    companion object {
+        const val TAG = "MainViewModel"
     }
+
+    val user = MutableLiveData<User>()
+
+    val address = MutableLiveData<Address>()
+
+    val users = MutableLiveData<List<User>>()
+
+    val addresses = MutableLiveData<List<Address>>()
+
+    var allUsers: List<User> = emptyList()
+
+    var allAddresses: List<Address> = emptyList()
+
+
+    init {
+
+        compositeDisposable.add(
+                databaseService.userDao()
+                        .count()
+                        .flatMap {
+                            if (it == 0)
+                                databaseService.addressDao().insertMany(
+                                        Address(city = "amman", country = "jordan"),
+                                        Address(city = "irbid", country = "jordan"),
+                                        Address(city = "home", country = "jordan"),
+                                        Address(city = "here", country = "jordan"),
+                                        Address(city = "there", country = "jordan"),
+                                        Address(city = "mars", country = "jordan")
+                                ).flatMap { addressessIds ->
+                                    databaseService.userDao().insertMany(
+                                            User(name = "Murad", addressId = addressessIds[0]),
+                                            User(name = "Murad1", addressId = addressessIds[1]),
+                                            User(name = "Murad2", addressId = addressessIds[2]),
+                                            User(name = "Murad3", addressId = addressessIds[3]),
+                                            User(name = "Murad4", addressId = addressessIds[4]),
+                                            User(name = "Murad5", addressId = addressessIds[5])
+                                    )
+                                }
+                            else
+                                Single.just(0)
+                        }
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            Log.d(TAG, "users exists in the table: $it")
+                        }, {
+                            Log.d(TAG, it.toString())
+                        })
+        )
+
+
+    }
+
+    fun getAllUsers() {
+        compositeDisposable.add(
+                databaseService.userDao().getAllUsers()
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            allUsers = it
+                            users.postValue(it)
+                        }, {
+                            Log.d(TAG, it.toString())
+                        })
+
+        )
+    }
+
+
+    fun getAllAddresses() {
+        compositeDisposable.add(
+                databaseService.addressDao().getAllAddresses()
+                        .subscribeOn(Schedulers.io())
+                        .subscribe({
+                            allAddresses = it
+                            addresses.postValue(it)
+                        }, {
+                            Log.d(TAG, it.toString())
+                        })
+
+        )
+    }
+
+    fun deleteUser() {
+        if (allUsers.isNotEmpty()) {
+            compositeDisposable.addAll(
+                    databaseService.userDao().delete(allUsers[0])
+                            .flatMap {
+
+                                databaseService.userDao().getAllUsers()
+                            }
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({
+                                allUsers = it
+                                users.postValue(it)
+                            }, {
+                                Log.d(TAG, it.toString())
+                            })
+
+            )
+        }
+    }
+
+    fun deleteAddress() {
+        if (allAddresses.isNotEmpty()) {
+            compositeDisposable.addAll(
+                    databaseService.addressDao().delete(allAddresses[0])
+                            .flatMap {
+
+                                databaseService.addressDao().getAllAddresses()
+                            }
+                            .subscribeOn(Schedulers.io())
+                            .subscribe({
+                                allAddresses = it
+                                addresses.postValue(it)
+                            }, {
+                                Log.d(TAG, it.toString())
+                            })
+
+            )
+        }
+    }
+
+    fun onDestroy() {
+        compositeDisposable.dispose()
+    }
+
 }

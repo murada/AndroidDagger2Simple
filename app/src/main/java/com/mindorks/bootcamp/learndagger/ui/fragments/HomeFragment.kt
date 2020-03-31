@@ -13,12 +13,25 @@ import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
-    @Inject
-    lateinit var homeViewModel: HomeViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        DaggerFragmentComponent.builder().fragmentModule(FragmentModule(this)).applicationCompenent((activity?.application as MyApplication).compenent).
-                build().inject(this)
+    var mViewModel: HomeViewModel? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        DaggerFragmentComponent.builder().fragmentModule(FragmentModule(this)).applicationCompenent((activity!!.application as MyApplication).compenent).build().inject(this)
+
         return inflater.inflate(R.layout.home_fragment, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        // TODO: Use the ViewModel
+    }
+
+    companion object {
+        const val TAG = "homeFragment"
+        fun newInstance(): HomeFragment {
+            return HomeFragment()
+        }
     }
 }

@@ -1,11 +1,15 @@
 package com.mindorks.bootcamp.learndagger.di.modules
 
 import android.content.Context
+import androidx.room.Room
 import com.mindorks.bootcamp.learndagger.MyApplication
+import com.mindorks.bootcamp.learndagger.data.local.DatabaseService
 import com.mindorks.bootcamp.learndagger.di.qualifier.ApiKey
 import com.mindorks.bootcamp.learndagger.di.qualifier.DatabaseName
 import dagger.Module
 import dagger.Provides
+import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Singleton
 
 @Module
 class ApplicationModule (var myApplication: MyApplication){
@@ -32,4 +36,17 @@ class ApplicationModule (var myApplication: MyApplication){
     fun provideApiKey(): String {
         return "ssss"
     }
+
+    @Singleton
+    @Provides
+    fun provideDatabaseService(): DatabaseService = Room.databaseBuilder(
+            myApplication,
+            DatabaseService::class.java,
+            "bootcamp=database-project-db"
+    ).build()
+
+
+    @Provides
+    fun provideCompositeDisposable():CompositeDisposable = CompositeDisposable()
+
 }

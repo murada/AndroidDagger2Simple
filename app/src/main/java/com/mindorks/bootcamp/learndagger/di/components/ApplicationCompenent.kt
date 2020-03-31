@@ -6,6 +6,7 @@ import com.mindorks.bootcamp.learndagger.data.remote.NetworkService
 import com.mindorks.bootcamp.learndagger.di.modules.ApplicationModule
 import com.mindorks.bootcamp.learndagger.utils.NetworkHelper
 import dagger.Component
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Singleton
 
 @Singleton
@@ -19,4 +20,7 @@ interface ApplicationCompenent {
     fun getDatabaseService(): DatabaseService
 
     fun getNetworkHelper(): NetworkHelper
+
+    fun getCompositeDisposable() : CompositeDisposable
+
 }
