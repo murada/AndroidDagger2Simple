@@ -3,6 +3,7 @@ package com.mindorks.bootcamp.learndagger.data.local
 import android.content.Context
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.mindorks.bootcamp.learndagger.data.local.dao.AddressDao
 import com.mindorks.bootcamp.learndagger.data.local.dao.UserDao
 import com.mindorks.bootcamp.learndagger.data.local.entity.Address
@@ -19,6 +20,7 @@ import javax.inject.Singleton
         version = 1,
         exportSchema = false
 )
+@TypeConverters(Converter::class)
 abstract class DatabaseService : RoomDatabase(){
 
     abstract fun userDao():UserDao

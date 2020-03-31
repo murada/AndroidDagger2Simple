@@ -11,6 +11,7 @@ import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.internal.disposables.ArrayCompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 
@@ -53,12 +54,12 @@ class MainViewModel @Inject constructor(
                                         Address(city = "mars", country = "jordan")
                                 ).flatMap { addressessIds ->
                                     databaseService.userDao().insertMany(
-                                            User(name = "Murad", addressId = addressessIds[0]),
-                                            User(name = "Murad1", addressId = addressessIds[1]),
-                                            User(name = "Murad2", addressId = addressessIds[2]),
-                                            User(name = "Murad3", addressId = addressessIds[3]),
-                                            User(name = "Murad4", addressId = addressessIds[4]),
-                                            User(name = "Murad5", addressId = addressessIds[5])
+                                            User(name = "Murad", dateOfBirth = Date(9596845779),addressId = addressessIds[0]),
+                                            User(name = "Murad1",dateOfBirth = Date(9596845779), addressId = addressessIds[1]),
+                                            User(name = "Murad2",dateOfBirth = Date(9596845779), addressId = addressessIds[2]),
+                                            User(name = "Murad3",dateOfBirth = Date(9596845779), addressId = addressessIds[3]),
+                                            User(name = "Murad4",dateOfBirth = Date(9596845779), addressId = addressessIds[4]),
+                                            User(name = "Murad5",dateOfBirth = Date(9596845779), addressId = addressessIds[5])
                                     )
                                 }
                             else
