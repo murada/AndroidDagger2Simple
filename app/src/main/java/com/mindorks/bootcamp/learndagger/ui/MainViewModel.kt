@@ -5,7 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.mindorks.bootcamp.learndagger.data.local.DatabaseService
 import com.mindorks.bootcamp.learndagger.data.local.entity.Address
 import com.mindorks.bootcamp.learndagger.data.local.entity.User
+import com.mindorks.bootcamp.learndagger.data.model.Dummy
 import com.mindorks.bootcamp.learndagger.data.remote.NetworkService
+import com.mindorks.bootcamp.learndagger.data.remote.request.DummyRequest
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -37,6 +39,24 @@ class MainViewModel @Inject constructor(
 
     var allAddresses: List<Address> = emptyList()
 
+
+    val dummies = MutableLiveData<List<Dummy>>()
+
+
+    fun getDummies(){
+        compositeDisposable.add(
+                networkService.doDummyCall(DummyRequest("123"))
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(
+                                {
+                                    dummies.postValue(it.data)
+                                },
+                                {
+                                    Log.d(TAG,it.toString())
+                                }
+                        )
+        )
+    }
 
     init {
 

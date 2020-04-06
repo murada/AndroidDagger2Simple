@@ -29,12 +29,18 @@ class MainActivity : AppCompatActivity() {
         val tvData2 = findViewById<TextView>(R.id.tvData2)
 
 
-        mainViewModel.users.observe(this, Observer {
+        mainViewModel.dummies.observe(this, Observer {
+            tvData.text = it.toString()
+        })
+
+        mainViewModel.getDummies()
+
+      /*  mainViewModel.users.observe(this, Observer {
             tvData.text = it.toString()
         })
         mainViewModel.addresses.observe(this, Observer {
             tvData2.text = it.toString()
-        })
+        })*/
 
         addHomeFragment();
     }
