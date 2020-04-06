@@ -2,11 +2,12 @@ package com.mindorks.bootcamp.learndagger.di.modules
 
 import android.content.Context
 import androidx.room.Room
+import com.mindorks.bootcamp.demo.di.ApplicationContext
+import com.mindorks.bootcamp.demo.di.DatabaseInfo
+import com.mindorks.bootcamp.demo.di.NetworkInfo
 import com.mindorks.bootcamp.learndagger.MyApplication
 import com.mindorks.bootcamp.learndagger.data.local.DatabaseService
 import com.mindorks.bootcamp.learndagger.data.local.MIGRATION_1_2
-import com.mindorks.bootcamp.learndagger.di.qualifier.ApiKey
-import com.mindorks.bootcamp.learndagger.di.qualifier.DatabaseName
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
@@ -16,13 +17,13 @@ import javax.inject.Singleton
 class ApplicationModule (var myApplication: MyApplication){
 
 
-    @Provides
-    fun provideContext(): Context {
-        return myApplication
-    }
 
     @Provides
-    @DatabaseName
+    @ApplicationContext
+    fun provideContext(): Context = myApplication
+
+    @Provides
+    @DatabaseInfo
     fun provideDatabaseName(): String {
         return "aaa"
     }
@@ -33,7 +34,7 @@ class ApplicationModule (var myApplication: MyApplication){
     }
 
     @Provides
-    @ApiKey
+    @NetworkInfo
     fun provideApiKey(): String {
         return "ssss"
     }

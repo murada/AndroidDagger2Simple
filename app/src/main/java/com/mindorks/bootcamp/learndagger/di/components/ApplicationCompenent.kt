@@ -1,5 +1,7 @@
 package com.mindorks.bootcamp.learndagger.di.components
 
+import android.content.Context
+import com.mindorks.bootcamp.demo.di.ApplicationContext
 import com.mindorks.bootcamp.learndagger.MyApplication
 import com.mindorks.bootcamp.learndagger.data.local.DatabaseService
 import com.mindorks.bootcamp.learndagger.data.remote.NetworkService
@@ -14,6 +16,9 @@ import javax.inject.Singleton
 interface ApplicationCompenent {
 
     fun inject(myApplication: MyApplication)
+
+    @ApplicationContext
+    fun getContext(): Context
 
     fun getNetworkService(): NetworkService
 

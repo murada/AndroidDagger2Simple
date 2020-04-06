@@ -8,7 +8,6 @@ import com.mindorks.bootcamp.learndagger.data.local.dao.AddressDao
 import com.mindorks.bootcamp.learndagger.data.local.dao.UserDao
 import com.mindorks.bootcamp.learndagger.data.local.entity.Address
 import com.mindorks.bootcamp.learndagger.data.local.entity.User
-import com.mindorks.bootcamp.learndagger.di.qualifier.DatabaseName
 import javax.inject.Inject
 import javax.inject.Singleton
 
