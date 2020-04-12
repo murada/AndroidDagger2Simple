@@ -7,17 +7,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.mindorks.bootcamp.learndagger.MyApplication
 import com.mindorks.bootcamp.learndagger.R
+import com.mindorks.bootcamp.learndagger.di.components.ActivityComponent
 import com.mindorks.bootcamp.learndagger.di.components.DaggerActivityComponent
 import com.mindorks.bootcamp.learndagger.di.modules.ActivityModule
+import com.mindorks.bootcamp.learndagger.ui.base.BaseActivity
 import com.mindorks.bootcamp.learndagger.ui.fragments.HomeFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<MainViewModel>() {
 
 
-    @Inject
-    lateinit var mainViewModel: MainViewModel
-
+/*
     override fun onCreate(savedInstanceState: Bundle?) {
         DaggerActivityComponent.builder().activityModule(ActivityModule(this)).applicationCompenent((application as MyApplication).compenent).build().inject(this)
         super.onCreate(savedInstanceState)
@@ -29,21 +30,24 @@ class MainActivity : AppCompatActivity() {
         val tvData2 = findViewById<TextView>(R.id.tvData2)
 
 
-        mainViewModel.dummies.observe(this, Observer {
+        viewModel.dummies.observe(this, Observer {
             tvData.text = it.toString()
         })
 
-        mainViewModel.getDummies()
+        viewModel.getDummies()
 
-      /*  mainViewModel.users.observe(this, Observer {
+      */
+/*  mainViewModel.users.observe(this, Observer {
             tvData.text = it.toString()
         })
         mainViewModel.addresses.observe(this, Observer {
             tvData2.text = it.toString()
-        })*/
+        })*//*
 
-        addHomeFragment();
+
+
     }
+*/
 
     fun addHomeFragment() {
         if(getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG) == null){
@@ -53,21 +57,39 @@ class MainActivity : AppCompatActivity() {
                     .commit();
         }
     }
+/*
 
     override fun onStart() {
         super.onStart()
-        mainViewModel.getAllAddresses()
-        mainViewModel.getAllUsers()
+        viewModel.getAllAddresses()
+        viewModel.getAllUsers()
     }
 
     override fun onStop() {
         super.onStop()
-        mainViewModel.deleteAddress()
+        viewModel.deleteAddress()
     }
+*/
 
     override fun onDestroy() {
         super.onDestroy()
-        mainViewModel.onDestroy()
+        viewModel.onDestroy()
     }
+
+
+    override fun setupObservers() {
+        super.setupObservers()
+        viewModel.data.observe(this, Observer {
+            tvData.text = it
+        })
+    }
+
+    override fun provideLayoutId(): Int = R.layout.activity_main
+
+    override fun setupView(savedInstanceState: Bundle?) {
+        addHomeFragment();
+    }
+
+    override fun injectDependencies(activityComponent: ActivityComponent) = activityComponent.inject(this)
 
 }

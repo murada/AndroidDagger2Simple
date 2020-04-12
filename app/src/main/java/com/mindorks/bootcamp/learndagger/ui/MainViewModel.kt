@@ -8,6 +8,8 @@ import com.mindorks.bootcamp.learndagger.data.local.entity.User
 import com.mindorks.bootcamp.learndagger.data.model.Dummy
 import com.mindorks.bootcamp.learndagger.data.remote.NetworkService
 import com.mindorks.bootcamp.learndagger.data.remote.request.DummyRequest
+import com.mindorks.bootcamp.learndagger.ui.base.BaseViewModel
+import com.mindorks.bootcamp.learndagger.utils.NetworkHelper
 import io.reactivex.Scheduler
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
@@ -17,11 +19,21 @@ import java.util.*
 import javax.inject.Inject
 
 
-class MainViewModel @Inject constructor(
-        private val compositeDisposable: CompositeDisposable,
+class MainViewModel(
+        compositeDisposable: CompositeDisposable,
         private val databaseService: DatabaseService,
-        private val networkService: NetworkService) {
+        private val networkService: NetworkService,
+        networkHelper: NetworkHelper) : BaseViewModel(compositeDisposable, networkHelper) {
 
+
+    val data  = MutableLiveData<String>()
+
+    override fun onCreate() {
+        data.postValue("MainViewModel")
+
+        if(!checkInternetConnection()) messageString.postValue("No Internet Connection")
+
+    }
 
     companion object {
         const val TAG = "MainViewModel"
@@ -43,7 +55,7 @@ class MainViewModel @Inject constructor(
     val dummies = MutableLiveData<List<Dummy>>()
 
 
-    fun getDummies(){
+    fun getDummies() {
         compositeDisposable.add(
                 networkService.doDummyCall(DummyRequest("123"))
                         .subscribeOn(Schedulers.io())
@@ -52,7 +64,7 @@ class MainViewModel @Inject constructor(
                                     dummies.postValue(it.data)
                                 },
                                 {
-                                    Log.d(TAG,it.toString())
+                                    Log.d(TAG, it.toString())
                                 }
                         )
         )
@@ -66,20 +78,20 @@ class MainViewModel @Inject constructor(
                         .flatMap {
                             if (it == 0)
                                 databaseService.addressDao().insertMany(
-                                        Address(city = "amman", code = 2,country = "jordan"),
-                                        Address(city = "irbid", code = 2,country = "jordan"),
-                                        Address(city = "home",  code = 2,country = "jordan"),
-                                        Address(city = "here",  code = 2,country = "jordan"),
-                                        Address(city = "there", code = 2,country = "jordan"),
-                                        Address(city = "mars",  code = 2,country = "jordan")
+                                        Address(city = "amman", code = 2, country = "jordan"),
+                                        Address(city = "irbid", code = 2, country = "jordan"),
+                                        Address(city = "home", code = 2, country = "jordan"),
+                                        Address(city = "here", code = 2, country = "jordan"),
+                                        Address(city = "there", code = 2, country = "jordan"),
+                                        Address(city = "mars", code = 2, country = "jordan")
                                 ).flatMap { addressessIds ->
                                     databaseService.userDao().insertMany(
-                                            User(name = "Murad", dateOfBirth = Date(9596845779),addressId = addressessIds[0]),
-                                            User(name = "Murad1",dateOfBirth = Date(9596845779), addressId = addressessIds[1]),
-                                            User(name = "Murad2",dateOfBirth = Date(9596845779), addressId = addressessIds[2]),
-                                            User(name = "Murad3",dateOfBirth = Date(9596845779), addressId = addressessIds[3]),
-                                            User(name = "Murad4",dateOfBirth = Date(9596845779), addressId = addressessIds[4]),
-                                            User(name = "Murad5",dateOfBirth = Date(9596845779), addressId = addressessIds[5])
+                                            User(name = "Murad", dateOfBirth = Date(9596845779), addressId = addressessIds[0]),
+                                            User(name = "Murad1", dateOfBirth = Date(9596845779), addressId = addressessIds[1]),
+                                            User(name = "Murad2", dateOfBirth = Date(9596845779), addressId = addressessIds[2]),
+                                            User(name = "Murad3", dateOfBirth = Date(9596845779), addressId = addressessIds[3]),
+                                            User(name = "Murad4", dateOfBirth = Date(9596845779), addressId = addressessIds[4]),
+                                            User(name = "Murad5", dateOfBirth = Date(9596845779), addressId = addressessIds[5])
                                     )
                                 }
                             else
